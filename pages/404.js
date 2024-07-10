@@ -6,7 +6,6 @@ import styles from '@/styles/NotFound.module.css';
 export default function NotFound() {
     return (
         <>
-            <Header />
             <Container>
                 <div className={styles.notFound}>
                     <div className={styles.content}>

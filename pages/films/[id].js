@@ -34,7 +34,6 @@ export default function Movie() {
 
     return (
         <>
-            <Header />
             <Container page>
                 <h1>{movie.title}</h1>
                 <p>{movie.description}</p>
