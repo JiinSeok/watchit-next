@@ -5,6 +5,7 @@ import MovieReviewList from "@/components/MovieReviewList";
 import styles from '@/styles/Movie.module.css'
 import Container from "@/components/Container";
 import Image from "next/image";
+import Head from "next/head";
 
 export default function Movie() {
     const { id } = useRouter().query;
@@ -34,6 +35,9 @@ export default function Movie() {
 
     return (
         <>
+            <Head>
+                <title>{movie.title} - Watchit</title>
+            </Head>
             <Container page>
                 <h1>{movie.title}</h1>
                 <p>{movie.description}</p>
