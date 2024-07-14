@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import MovieReviewList from "@/components/MovieReviewList";
 import styles from '@/styles/Movie.module.css'
-import Header from "@/components/Header";
 import Container from "@/components/Container";
+import Image from "next/image";
 
 export default function Movie() {
     const { id } = useRouter().query;
@@ -37,6 +37,9 @@ export default function Movie() {
             <Container page>
                 <h1>{movie.title}</h1>
                 <p>{movie.description}</p>
+                <div className={styles.poster}>
+                    <Image fill src={movie.posterUrl} alt={movie.title} />
+                </div>
                 <MovieReviewList movieReviews={movieReviews}/>
             </Container>
         </>

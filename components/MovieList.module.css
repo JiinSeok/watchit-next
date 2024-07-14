@@ -16,6 +16,7 @@
     aspect-ratio: 27 / 40;
     width: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .title {
