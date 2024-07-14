@@ -6,19 +6,16 @@ import Container from '@/components/Container';
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 
-export default function Home() {
-    const [movies, setMovies] = useState([]);
+export async function getStaticProps() {
+    const response = await axios.get('/movies');
+    const movies = response.data.results ?? [];
+    return {
+        props: { movies, },
+    };
 
-    async function getMovies() {
-        const response = await axios.get('/movies');
-        const nextMovies = response.data.results ?? [];
-        setMovies(nextMovies);
-    }
+}
 
-    useEffect(() => {
-        getMovies();
-    }, []);
-
+export default function Home({ movies }) {
     if (!movies) {
         return <div>정보가 없습니다.</div>;
     }
