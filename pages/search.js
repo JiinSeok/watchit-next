@@ -7,32 +7,25 @@ import Container from "@/components/Container";
 import styles from '@/styles/Search.module.css';
 import Head from "next/head";
 
-export default function Search() {
-    const { q } = useRouter().query;
-    const [movies, setMovies] = useState([]);
+export async function getServerSideProps(context) {
+    const query = context.query.q;
 
-    async function searchMovies(query) {
-        const response = await axios.get(`/movies/?q=${query}`);
-        const nextMovies = response.data.results || [];
-        setMovies(nextMovies);
-    }
+    const response = await axios.get(`/movies/?q=${query}`);
+    const movies = response.data.results || [];
 
-    useEffect(() => {
-        if (q) {
-            searchMovies(q);
-        }
-    },[q]);
+    return { props: { query, movies } };
+}
 
-
+export default function Search({ query, movies }) {
     return (
         <>
             <Head>
-                <title>{q} 검색결과 - Watchit</title>
+                <title>{query} 검색결과 - Watchit</title>
             </Head>
             <Container page>
-                <SearchForm initialQuery={q} />
+                <SearchForm initialQuery={query} />
                 <h2 className={styles.title}>
-                    <span className={styles.keyword}>{q}</span> 검색 결과
+                    <span className={styles.keyword}>{query}</span> 검색 결과
                 </h2>
                 <MovieList movies={movies}/>
             </Container>
