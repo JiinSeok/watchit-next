@@ -6,32 +6,37 @@ import styles from '@/styles/Movie.module.css'
 import Container from "@/components/Container";
 import Image from "next/image";
 import Head from "next/head";
+import Spinner from "@/components/Spinner";
 
-export default function Movie() {
-    const { id } = useRouter().query;
-    const [movie, setMovie] = useState(); // 받아올 스테이트 설정
-    const [movieReviews, setMovieReviews] = useState([]); // 받아올 스테이트 설정
+export async function getServerSideProps(context) {
+    const movieId = context.params.id;
 
-    async function getMovie(targetId){
-        const response = await axios.get(`/movies/${targetId}`);
-        const nextMovie = response.data;
-        setMovie(nextMovie);
+    let movie = null;
+
+    try {
+        const response = await axios.get(`/movies/${movieId}`);
+        movie = response.data;
+    } catch {
+        return { notFound: true };
     }
 
-    async function getMovieReviews(targetId){
-        const response = await axios.get(`/movie_reviews/?movie_id=${targetId}`);
-        const nextMovieReviews = response.data.results ?? [];
-        setMovieReviews(nextMovieReviews);
+    const response = await axios.get(`/movie_reviews/?movie_id=${movieId}`);
+    const movieReviews = response.data.results ?? [];
+
+    return {
+        props: { movie, movieReviews },
     }
+}
 
-    useEffect(() => {
-        if(id){
-            getMovie(id);
-            getMovieReviews(id);
-        }
-    }, [id]);
-
-    if (!movie) return <div>정보가 없습니다.</div>;
+export default function Movie({ movie, movieReviews }) {
+    if (!movie) {
+        return (
+            <div>
+                <Spinner/>
+                <p>로딩중입니다. 잠시만 기다려주세요.</p>
+            </div>
+        )
+    }
 
     return (
         <>
