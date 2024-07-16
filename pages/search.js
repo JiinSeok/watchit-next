@@ -8,7 +8,7 @@ import styles from '@/styles/Search.module.css';
 import Head from "next/head";
 
 export async function getServerSideProps(context) {
-    const query = context.query.q;
+    const query = context.query['q'];
 
     const response = await axios.get(`/movies/?q=${query}`);
     const movies = response.data.results || [];
