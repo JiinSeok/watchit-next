@@ -1,34 +1,36 @@
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import {useEffect, useState} from 'react';
-import SearchForm from "@/components/SearchForm";
-import MovieList from "@/components/MovieList";
-import axios from "@/lib/axios";
-import Container from "@/components/Container";
+import MovieList from '@/components/MovieList';
+import SearchForm from '@/components/SearchForm';
 import styles from '@/styles/Search.module.css';
-import Head from "next/head";
+import axios from '@/lib/axios';
 
-export async function getServerSideProps(context) {
-    const query = context.query['q'];
+export default function Search() {
+  const [movies, setMovies] = useState([]);
+  const router = useRouter();
+  const q = router.query['q'];
 
-    const response = await axios.get(`/movies/?q=${query}`);
-    const movies = response.data.results || [];
+  async function getMovies(query) {
+    const res = await axios.get(`/movies?q=${query}`);
+    const movies = res.data.results ?? [];
+    setMovies(movies);
+  }
 
-    return { props: { query, movies } };
-}
+  useEffect(() => {
+    getMovies(q);
+  }, [q]);
 
-export default function Search({ query, movies }) {
-    return (
-        <>
-            <Head>
-                <title>{query} 검색결과 - Watchit</title>
-            </Head>
-            <Container page>
-                <SearchForm initialQuery={query} />
-                <h2 className={styles.title}>
-                    <span className={styles.keyword}>{query}</span> 검색 결과
-                </h2>
-                <MovieList movies={movies}/>
-            </Container>
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>{q} 검색 결과 - watchit</title>
+      </Head>
+      <SearchForm initialValue={q} />
+      <h2 className={styles.title}>
+        <span className={styles.keyword}>{q}</span> 검색 결과
+      </h2>
+      <MovieList movies={movies} />
+    </>
+  );
 }
