@@ -14,6 +14,7 @@ export async function getStaticProps() {
 export default function Home({ movies }) {
   return (
     <>
+      하하
       <SearchForm />
       <MovieList className={styles.movieList} movies={movies} />
     </>
