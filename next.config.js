@@ -1,17 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  trailingSlash: true,
   reactStrictMode: true,
-  async redirects() {
-    return [
-      {
-        source: '/movies/:id',
-        destination: '/films/:id',
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/movies/:id',
+  //       destination: '/films/:id',
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

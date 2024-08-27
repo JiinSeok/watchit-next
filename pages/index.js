@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import MovieList from '@/components/MovieList';
 import SearchForm from '@/components/SearchForm';
 import styles from '@/styles/Home.module.css';
