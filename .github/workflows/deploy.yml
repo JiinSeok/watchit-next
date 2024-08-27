@@ -24,12 +24,12 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AKIA2UC3BNMJRPRBMAJX }}
-          aws-secret-access-key: ${{ secrets.PmKIvbVlGp03f5bFy4SMGNQvCT2MJXFZi2aK61c0 }}
-          aws-region: ${{ secrets.ap-northeast-2 }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to S3
-        run: aws s3 sync ./${{ secrets..next }} ${{ secrets.jiin-seok.net }} --delete
+        run: aws s3 sync ./${{ secrets.BUILD_DIRECTORY }} ${{ secrets.AWS_S3_BUCKET_NAME }} --delete
 
       - name: CloudFront Invalidate Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
