@@ -2,7 +2,7 @@ name: Next.js deployment practice
 
 on:
   push:
-    branches: [main]
+    branches: [deploy_static]
 
 jobs:
   continuous-deployment:
