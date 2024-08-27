@@ -4,6 +4,12 @@ import SearchForm from '@/components/SearchForm';
 import styles from '@/styles/Home.module.css';
 import axios from '@/lib/axios';
 
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}
+
 export default function Home() {
   const [movies, setMovies] = useState([]);
 
