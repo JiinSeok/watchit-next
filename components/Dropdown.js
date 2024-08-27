@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import arrowImg from '@/public/arrow.svg';
 import styles from './Dropdown.module.css';
+import Image from "next/image";
 
 export default function Dropdown({
   className,
@@ -47,7 +48,7 @@ export default function Dropdown({
       ref={inputRef}
     >
       {selectedOption.label}
-      <img
+      <Image
         className={styles.arrow}
         src={arrowImg.src}
         width={12}
