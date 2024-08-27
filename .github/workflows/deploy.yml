@@ -1,0 +1,35 @@
+name: Next.js deployment practice
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  continuous-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js version 18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AKIA2UC3BNMJRPRBMAJX }}
+          aws-secret-access-key: ${{ secrets.PmKIvbVlGp03f5bFy4SMGNQvCT2MJXFZi2aK61c0 }}
+          aws-region: ${{ secrets.ap-northeast-2 }}
+
+      - name: Deploy to S3
+        run: aws s3 sync ./${{ secrets..next }} ${{ secrets.jiin-seok.net }} --delete
+
+      - name: CloudFront Invalidate Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
